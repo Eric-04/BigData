@@ -14,22 +14,23 @@ bigquery_client = bigquery.Client()
 query = """
 SELECT * 
 FROM `bigquery-public-data.census_bureau_acs.blockgroup_2010_5yr` 
-LIMIT 1000
+LIMIT 10
 """
 
 # Execute the query
 query_job = bigquery_client.query(query)
 results = query_job.result()
 
-for row in results:
-    print(row)
-
 # Store the results in a pandas DataFrame
 data = []
 for row in results:
-    data.append((row.column1, row.column2))
+    data.append(row._xxx_values)
 
-# df = pd.DataFrame(data, columns=['column1', 'column2'])
+columns = [key for key in row._xxx_field_to_index]
+df = pd.DataFrame(data, columns=columns)
 
-# # Save the DataFrame to a CSV file
-# df.to_csv('data.csv', index=False)
+# Save the DataFrame to a CSV file
+# save model to directory
+data_dir = './data/'
+os.makedirs(data_dir, exist_ok=True)
+df.to_csv(os.path.join(data_dir, 'us_census_acs.csv'), index=False)
