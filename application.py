@@ -14,7 +14,7 @@ bigquery_client = bigquery.Client()
 query = """
 SELECT * 
 FROM `bigquery-public-data.census_bureau_acs.blockgroup_2010_5yr` 
-LIMIT 10
+LIMIT 1000
 """
 
 # Execute the query
@@ -30,7 +30,6 @@ columns = [key for key in row._xxx_field_to_index]
 df = pd.DataFrame(data, columns=columns)
 
 # Save the DataFrame to a CSV file
-# save model to directory
 data_dir = './data/'
 os.makedirs(data_dir, exist_ok=True)
 df.to_csv(os.path.join(data_dir, 'us_census_acs.csv'), index=False)
